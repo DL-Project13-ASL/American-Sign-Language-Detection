@@ -100,13 +100,7 @@ Instead of storing raw image data, this `.pkl` file stores the final **structure
 - Greatly reduces training time (minutes instead of hours)
 - Ensures consistency between training and inference
 
-  #### 📌 Why it is large (~32 MB):
-The file contains **all extracted landmarks for the full ASL dataset**.  
-since GitHub does not allow files >25MB.
-
-Here is the access link,
-
-https://drive.google.com/file/d/1uSOb_6SOoDYCDk1CbKlqZ_kZjm1Uk0pC/view?usp=sharing
+  
 
 
 
