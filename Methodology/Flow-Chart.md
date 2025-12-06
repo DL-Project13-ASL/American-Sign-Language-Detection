@@ -9,9 +9,9 @@ Below are the flowchart that visually represent the **complete methodology pipel
 This flowchart provides a top-level overview of the entire ASL recognition process, including dataset loading, preprocessing, model training, and real-time prediction.
 
 ### 📷 Flowchart Screenshot
-![Overall Pipeline](flow1.png)
-![Overall Pipeline](flow2.png)
-![Overall Pipeline](flow3.png)
+![Overall Pipeline](flow1.jpeg)
+![Overall Pipeline](flow2.jpeg)
+![Overall Pipeline](flow3.jpez)
 
 
 
