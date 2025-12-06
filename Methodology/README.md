@@ -1,29 +1,17 @@
-# 🧪 Methodology
+<h1 align="center">🤟 American Sign Language Recognition — Methodology</h1>
 
-This project follows a structured machine-learning workflow to build and deploy a real-time American Sign Language (ASL) recognition system using deep learning and MediaPipe.
-
----
-
-### 1️⃣ Dataset Loading
-
-The ASL Alphabet dataset from Kaggle was used, containing labeled gesture images across 29 different classes (A–Z, SPACE, DELETE, NOTHING). The dataset was scanned class-wise, and file integrity checks were performed before processing.
+<p align="center">
+  🔍 Deep Learning | 🧠 MLP Classifier | 🖐 MediaPipe | 🎥 Real-Time Detection
+</p>
 
 ---
 
-### 2️⃣ Hand Landmark Extraction (MediaPipe)
+## 🧪 Overview
 
-Instead of using full raw image data, hand geometry was extracted using **MediaPipe Hands**:
-
-- Each sample generates **21 landmark points**
-- Each point provides **x, y, z coordinates**
-- Resulting feature vector size → **63 values per image**
-
-Landmarks were normalized relative to the wrist joint to reduce variations from hand distance and camera positioning.
+This project implements a complete machine learning workflow to build a real-time ASL gesture recognition system.  
+It transforms raw image data into structured landmark features and trains a deep neural network for classification.
 
 ---
 
-### 3️⃣ Dataset Construction
-
-Extracted numeric features were stored in a structured DataFrame with the following format:
-
+## 📌 Workflow Summary
 
