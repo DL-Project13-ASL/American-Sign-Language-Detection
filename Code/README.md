@@ -78,5 +78,6 @@ This Jupyter Notebook contains the entire training workflow, including:
 - Model training
 - Evaluation (accuracy, loss, confusion matrix)
 - Saving final artifacts (model, encoder, scaler)
+
 It serves as the main development and experimentation notebook for the project.
 
