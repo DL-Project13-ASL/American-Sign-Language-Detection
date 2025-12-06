@@ -1,17 +1,31 @@
-# 📊 Methodology Flowchart
+# 📊 Methodology Flowcharts
 
-Below are the flowchart that visually represent the **complete methodology pipeline** used in the ASL Alphabet Recognition project. This diagram help illustrate the step-by-step flow of data from raw images to real-time gesture prediction.
+This section contains the official flowcharts that visually describe the complete methodology used in the ASL Alphabet Recognition project. These diagrams illustrate the flow of data from the dataset, through feature extraction and model training, all the way to artifact saving.
 
 ---
 
-## 🔹 1. Overall System Pipeline
+## 🔹 1. ASL Alphabet Recognition – Methodology Flow (Full Pipeline)
 
-This flowchart provides a top-level overview of the entire ASL recognition process, including dataset loading, preprocessing, model training, and real-time prediction.
+This flowchart represents the **overall methodology**, including dataset loading, folder scanning, and offline feature extraction.
 
-### 📷 Flowchart Screenshot
-![Overall Pipeline](flow1.jpeg)
-![Overall Pipeline](flow2.jpeg)
-![Overall Pipeline](flow3.jpez)
+![ASL Methodology Flowchart](flow1.jpeg)
 
+---
+
+## 🔹 2. Model Development Pipeline
+
+This diagram shows the complete **model-building workflow**, including preprocessing, label encoding, scaling, training, evaluation, and generating reports.
+
+![Model Development Flowchart](flow2.jpeg)
+
+---
+
+## 🔹 3. Saving Model Artifacts
+
+This flowchart shows how trained model components are saved for later real-time inference.
+
+![Artifacts Saving Flowchart](flow3.jpeg)
+
+---
 
 
