@@ -81,3 +81,32 @@ This Jupyter Notebook contains the entire training workflow, including:
 
 It serves as the main development and experimentation notebook for the project.
 
+### 🔹 7. `asl_landmarks.pkl`
+
+This file contains the **preprocessed landmark dataset** extracted from the original ASL Alphabet images.
+
+Instead of storing raw image data, this `.pkl` file stores the final **structured numerical dataset** created after running MediaPipe Hands on every image.
+
+  #### 📌 Contents of `asl_landmarks.pkl`:
+- 63 landmark features per sample  
+  (21 hand points × 3 coordinates: x, y, z)
+- 1 label column representing the ASL class  
+- Total samples ≈ 87,000  
+- Data format:  label, x0, y0, z0, x1, y1, z1, ..., x20, y20, z20
+
+  #### 📌 Purpose:
+- Serves as the **input dataset** for model training  
+- Eliminates the need to re-run MediaPipe for every training session  
+- Greatly reduces training time (minutes instead of hours)
+- Ensures consistency between training and inference
+
+  #### 📌 Why it is large (~32 MB):
+The file contains **all extracted landmarks for the full ASL dataset**.  
+since GitHub does not allow files >25MB.
+
+Here is the access link,
+
+https://drive.google.com/file/d/1uSOb_6SOoDYCDk1CbKlqZ_kZjm1Uk0pC/view?usp=sharing
+
+
+
