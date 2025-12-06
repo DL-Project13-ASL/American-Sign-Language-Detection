@@ -64,3 +64,18 @@ Run using:
 ```bash
 python live.py
 
+---
+
+### 🔹 6. `signnnn.ipynb`
+This Jupyter Notebook contains the entire training workflow, including:
+- Dataset reading
+- MediaPipe landmark extraction
+- DataFrame creation
+- Scaling & label encoding
+- Model building (MLP)
+- Callbacks setup
+- Model training
+- Evaluation (accuracy, loss, confusion matrix)
+- Saving final artifacts (model, encoder, scaler)
+It serves as the main development and experimentation notebook for the project.
+
