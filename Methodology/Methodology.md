@@ -6,6 +6,8 @@ This project follows a complete end-to-end pipeline for building a **real-time A
 
 ## 🔹 1. Dataset Loading
 
+https://www.kaggle.com/datasets/grassknoted/asl-alphabet
+
 - The ASL Alphabet Dataset (Kaggle) containing **87,000+ images** across **29 classes** is loaded.
 - Each class (A–Z, SPACE, DELETE, NOTHING) is stored in separate folders.
 - Steps performed:
