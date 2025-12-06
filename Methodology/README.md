@@ -1,61 +1,161 @@
-# 🚀 Methodology: Real-Time ASL Alphabet Recognition
+# 🛠️ Methodology
 
-This project follows a structured pipeline to build an American Sign Language (ASL) alphabet recognition system capable of real-time gesture classification. The core approach leverages **MediaPipe** for robust feature extraction and a **Multilayer Perceptron (MLP)** for deep learning classification.
-
-## 1. Dataset Loading and Preparation
-
-The foundation of the project relies on image data representing ASL hand signs.
-
-* [cite_start]**Source:** ASL Alphabet Dataset from Kaggle[cite: 22, 133].
-* [cite_start]**Target Classes:** 29 distinct classes, including the letters A-Z and special classes: `SPACE`, `NOTHING`, and `DELETE`[cite: 30, 133].
-* [cite_start]**Process:** The dataset directory was scanned, and each image folder's name was assigned as the class label[cite: 134, 135].
-
-## 2. Hand Landmark Extraction (Feature Engineering)
-
-To efficiently train the neural network, raw images were converted into a set of structured, numerical features representing the hand's geometry.
-
-* [cite_start]**Tool:** Google's **MediaPipe Hands** model[cite: 74, 142].
-* [cite_start]**Detection:** Detects a single hand and extracts **21 key 3D landmarks** (x, y, z coordinates) per image[cite: 89, 142, 146].
-* [cite_start]**Normalization:** All 21 landmarks were normalized by subtracting the coordinates of the **wrist point (landmark 0)**[cite: 91, 147, 148]. [cite_start]This step is crucial for reducing noise from variations in hand position, size, and camera distance[cite: 149, 153].
-* [cite_start]**Feature Vector:** Each image was flattened into a vector of **63 numerical features** (21 landmarks $\times$ 3 coordinates)[cite: 92, 152].
-* [cite_start]**Output:** The processed data was combined into a Pandas DataFrame and saved as `asl_landmarks.pkl`[cite: 99, 155, 160].
-
-## 3. Data Preprocessing for Model Training
-
-The prepared dataset was transformed into a format suitable for the MLP classifier.
-
-* [cite_start]**Label Encoding:** The string labels (e.g., 'A', 'B') were converted into corresponding integers using a `LabelEncoder` (e.g., $A \rightarrow 0, B \rightarrow 1$)[cite: 162, 163, 164].
-* [cite_start]**Train-Test Split:** The dataset was split into **80% training** and **20% testing** subsets, using **stratification** to ensure proportional class representation in both splits[cite: 105, 106, 167, 168, 169].
-* [cite_start]**Feature Scaling:** The features were standardized using **`StandardScaler`** to have a mean of 0 and a variance of 1. This is critical for improving the performance and stability of the neural network[cite: 171, 174]. [cite_start]The scaler was fit on the training data and then used to transform both training and test data[cite: 172, 173].
-
-## 4. Model Building (MLP Classifier)
-
-A Multilayer Perceptron (MLP) was constructed using TensorFlow/Keras for the multi-class classification task.
-
-* [cite_start]**Architecture (Dense Layers):** $\text{Input} \rightarrow 256 \rightarrow 128 \rightarrow 64 \rightarrow \text{Output (29 classes)}$[cite: 110, 111, 179].
-* **Key Components:**
-    * [cite_start]**Activation:** ReLU for non-linearity[cite: 180].
-    * [cite_start]**Regularization:** Batch Normalization and Dropout layers were included to improve stability and reduce overfitting[cite: 181, 182].
-    * [cite_start]**Output Layer:** Softmax activation for the final 29-class classification[cite: 183].
-* **Compilation:**
-    * [cite_start]**Optimizer:** Adam (with a learning rate of $0.001$)[cite: 113, 185, 186].
-    * [cite_start]**Loss Function:** `sparse_categorical_crossentropy`[cite: 114, 187].
-    * [cite_start]**Metric:** Accuracy[cite: 188].
-* [cite_start]**Training Callbacks:** `EarlyStopping`, `ReduceLROnPlateau`, and `ModelCheckpoint` were configured to manage the training process and save the best-performing model weights[cite: 115, 116, 117, 118, 189].
-
-## 5. Real-Time Detection and Deployment
-
-The trained model was deployed to function as a live ASL recognition system.
-
-* [cite_start]**Artifact Saving:** The following components were saved for inference[cite: 212]:
-    1.  [cite_start]`asl_model.h5` (Trained MLP model) [cite: 129, 213]
-    2.  [cite_start]`scaler.pkl` (Feature scaler) [cite: 131, 214]
-    3.  [cite_start]`label_encoder.pkl` (Class mapping) [cite: 130, 215]
-* **Live Prediction Pipeline:**
-    1.  [cite_start]Webcam frames are captured using **OpenCV**[cite: 219].
-    2.  [cite_start]**MediaPipe** extracts the hand landmarks on each frame[cite: 220].
-    3.  [cite_start]Landmarks are normalized and scaled using the saved `scaler.pkl`[cite: 221].
-    4.  [cite_start]The trained model (`asl_model.h5`) predicts the ASL class[cite: 222].
-    5.  [cite_start]The prediction is displayed live on the video feed[cite: 223].
+This project follows a complete end-to-end pipeline for building a **real-time ASL Alphabet Recognition System**. The methodology includes dataset handling, landmark extraction, deep-learning model training, evaluation, and real-time prediction.
 
 ---
+
+## 🔹 1. Dataset Loading
+
+- The ASL Alphabet Dataset (Kaggle) containing **87,000+ images** across **29 classes** is loaded.
+- Each class (A–Z, SPACE, DELETE, NOTHING) is stored in separate folders.
+- Steps performed:
+  - Scan dataset directories
+  - Validate image formats (`.jpg`, `.png`, `.jpeg`)
+  - Count images per class
+  - Assign labels based on folder names
+
+---
+
+## 🔹 2. Hand Landmark Extraction (MediaPipe Hands)
+
+Instead of using raw images, the system extracts **21 hand landmarks**, each having **(x, y, z)** coordinates.
+
+For every image:
+1. Read image and convert BGR → RGB  
+2. Use MediaPipe Hands to detect a single hand  
+3. Extract all **21 landmarks**  
+4. Normalize coordinates by subtracting the wrist point (landmark 0)  
+5. Flatten into **63 total features** (21 × 3)
+
+If no hand is detected → image is skipped.
+
+This method is lightweight, robust, and better than raw image training.
+
+---
+
+## 🔹 3. Dataset Construction
+
+After extracting the features:
+- A structured DataFrame is created containing:
+  - **63 landmark features**
+  - **1 label column**
+- Column format example: label, x0, y0, z0, x1, y1, z1, ... x20, y20, z20
+- Dataset saved as: asl_landmarks.pkl
+  
+---
+
+## 🔹 4. Label Encoding
+
+The labels (A–Z, space, delete, nothing) are converted to numeric form using **LabelEncoder**.
+
+Example:
+- A → 0  
+- B → 1  
+- C → 2  
+- …  
+
+This is required for deep learning model training.
+
+---
+
+## 🔹 5. Train–Test Split
+
+The dataset is divided as:
+- **80% Training**
+- **20% Testing**
+
+Stratification ensures each class is evenly represented in both splits.
+
+---
+
+## 🔹 6. Feature Scaling
+
+Deep learning models perform better with normalized inputs.
+
+- `StandardScaler` is applied:
+- `fit_transform()` on training data
+- `transform()` on test data
+
+All 63 features are standardized to mean = 0 and variance = 1.
+
+---
+
+## 🔹 7. Model Building (MLP Classifier – TensorFlow/Keras)
+
+A **Multilayer Perceptron** is built for gesture classification.
+
+### Architecture:
+- Dense(256) → ReLU → BatchNorm → Dropout  
+- Dense(128) → ReLU → BatchNorm → Dropout  
+- Dense(64) → ReLU → BatchNorm → Dropout  
+- Output Layer (Softmax, 29 classes)
+
+### Model settings:
+- Optimizer: **Adam (lr=0.001)**
+- Loss: **sparse_categorical_crossentropy**
+- Metric: **accuracy**
+
+### Callbacks used:
+- EarlyStopping  
+- ReduceLROnPlateau  
+- ModelCheckpoint  
+
+---
+
+## 🔹 8. Model Training
+
+The MLP model is trained with:
+- Epochs: up to **100**
+- Batch size: **128**
+- Validation on test split
+- Automatic LR reduction when validation loss plateaus
+
+The best model is saved as: asl_model.h5
+
+---
+
+## 🔹 9. Model Evaluation
+
+After training, the model is evaluated on the 20% test set.
+
+Metrics:
+- **Training Accuracy:** 99.78%
+- **Testing Accuracy:** 99.53%
+- **Training Loss:** very low  
+- **Testing Loss:** very low
+
+Additional outputs:
+- Confusion Matrix  
+- Classification Report  
+- Accuracy/Loss training curves  
+
+The model shows excellent generalization with minimal overfitting.
+
+---
+
+## 🔹 10. Saving Final Components
+
+To support real-time use, the following are saved:
+
+| File | Purpose |
+|------|---------|
+| `asl_model.h5` | Trained MLP model |
+| `scaler.pkl` | StandardScaler object |
+| `label_encoder.pkl` | Label mappings (A–Z, space, delete, nothing) |
+
+---
+
+## 🔹 11. Real-Time Gesture Detection
+
+Using webcam + MediaPipe:
+1. Capture live frames  
+2. Detect hand landmarks in each frame  
+3. Normalize & scale landmarks  
+4. Predict using trained model  
+5. Display predicted ASL letter on screen  
+
+This completes the real-time ASL alphabet recognition system.
+
+---
+
+
