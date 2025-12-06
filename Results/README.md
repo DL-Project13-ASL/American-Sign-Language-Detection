@@ -51,6 +51,4 @@ These results confirm that the system is highly reliable and capable of accurate
 
 ---
 
-## 📁 Folder Structure Example
-
 
