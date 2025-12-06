@@ -63,6 +63,7 @@ Features:
 Run using:
 ```bash
 python live.py
+```
 
 ---
 
